@@ -1,11 +1,12 @@
-/**
- * =======
- * Models
- * =======
- */
+//
 // Declare namespace
 Jschat = {};
 
+//
+//Models
+//=======
+// This is tool from [JavascriptMVC](http://javascriptmvc.com/) framework.
+// It used to create binded to `this` callbacks, when _.bind() can not do this.
 Jschat.JsmvcCallback = {
 	callback: function( funcs ) {
 		var makeArray = $.makeArray,
@@ -16,7 +17,7 @@ Jschat.JsmvcCallback = {
 			return arr.concat(makeArray(args));
 		};
 		
-		//args that should be curried
+		// args that should be curried
 		var args = makeArray(arguments),
 		self;
 		
@@ -59,6 +60,10 @@ Jschat.JsmvcCallback = {
 	}
 };
 
+//Contact model
+//--------------
+//Presence updated with `updatePrecense`. While updating,
+//program selects best status from `Jschat.Contact.Statuses`
 Jschat.Contact = Backbone.Model.extend({
 	updatePrecense: function(presence){
 		var status;
@@ -78,8 +83,16 @@ Jschat.Contact = Backbone.Model.extend({
 });
 Jschat.Contact.Statuses = ['unavailable', 'xa', 'dnd', 'away', 'available', 'chat'];
 
+//Roster model
+//-------------
+//
+//It has special method to hold information about 
+//started conversation, current manager and so on.
+
 Jschat.Roster = Backbone.Collection.extend({
 	initialize: function(){
+//		While conversation started, program should keep messaging only with 
+//		selected manager
 		this._freezeManager = false;
 		this.manager = null;
 		this.bind('change:status', function(contact, new_status){
@@ -88,8 +101,10 @@ Jschat.Roster = Backbone.Collection.extend({
 		this.bind('add', function(){
 			this.updateManager();
 		});
-		_.bindAll(this); // all of the object's function properties will be bound to ``this``.
+//		all of the object's function properties will be bound to ``this``.
+		_.bindAll(this); 
 	},
+//	public method
 	freezeManager: function(){
 		this._freezeManager = true;
 	},
@@ -114,6 +129,7 @@ Jschat.Roster = Backbone.Collection.extend({
 	model: Jschat.Contact
 });
 
+//Static method to create rosters from XMPP stanzas
 Jschat.Roster.serializeRoster = function(roster){
 	res = [];
 	$(roster).find('item').each(function(index, el){
@@ -128,6 +144,12 @@ Jschat.Roster.serializeRoster = function(roster){
 	});
 	return res;
 };
+
+//Message model
+//--------------
+//
+//Message can automatically detect direction by calling
+//`message.incoming()`
 
 Jschat.Message = Backbone.Model.extend({
 	incoming: function(){
@@ -152,23 +174,28 @@ Jschat.ChatLog = Backbone.Collection.extend({
 	model: Jschat.Message
 });
 
-/**
- * ======
- * Views
- * ======
- */
+//
+//Views
+//=====
+//
+//Template for chat history
 Jschat.message_template = Handlebars.compile('<div class="message {{#incoming }}in{{/incoming}}{{^incoming }}out{{/incoming}}">'+
-		'<div class="nick">{{#incoming }}{{ from }}{{/incoming}}{{^incoming }}Вы:{{/incoming}}</div>'+
+		'<div class="nick">{{#incoming }}{{ from }}{{/incoming}}{{^incoming }}You:{{/incoming}}</div>'+
 		'<div class="text">{{ text }}</div></div>');
-	Jschat.welcome_template = Handlebars.compile('Имя {{ name }}, Email: {{ email }}');
+//Template for welcome message
+Jschat.welcome_template = Handlebars.compile('Name: {{ name }}, Email: {{ email }}');
 	Jschat.viewstates = {
 		offline: 0,
 		connecting: 1,
 		online: 2
 	};
 
+//Chat view
+//----------
+//
+//Main view in module. It handles everything user action in chat:
+//Opening chat, sending messages, closing chat
 Jschat.ChatView = Backbone.View.extend({
-//		el: $('#online-block'),
 	initialize: function(){
 		this.status = Jschat.viewstates.offline; // Default status
 		this.send_on_enter = true;
@@ -195,7 +222,6 @@ Jschat.ChatView = Backbone.View.extend({
 	},
 	destroy: function(){
 		this.el.hide('200');
-		// unbind ...?
 	},
 	focusin: function(ev){
 		$('label[for=' + $(ev.target).attr('id') + ']').hide();
@@ -283,14 +309,10 @@ Jschat.ChatView = Backbone.View.extend({
 	}
 });
 
-/**
- * ===========
- * Main class
- * ===========
- */
-/**
- * Xmpp constructor
- */
+//
+//Main class
+//==========
+//
 Jschat.Xmpp = function(options) {
 	if (!options) options = {}; 
     if (this.defaults) options = _.extend(this.defaults, options);
@@ -298,10 +320,14 @@ Jschat.Xmpp = function(options) {
     this.initialize();
 };
 
-/**
- * Xmpp class implementation
- */
+
+//Xmpp class implementation
+//-------------------------
+ 
 _.extend(Jschat.Xmpp.prototype, Jschat.JsmvcCallback, Backbone.Events, {
+//	Default options can be overriden in constructor:
+//	
+//	`chat = new Jschat.Xmpp({'jid': 'me@jabber.org})`
 	defaults: {
 		jid: 'jschat-demo@jabber.org',
 		password: 'password',
@@ -318,7 +344,7 @@ _.extend(Jschat.Xmpp.prototype, Jschat.JsmvcCallback, Backbone.Events, {
 		this._welcomeSent = false;
 //	    this.connection.rawInput = function (data) { console.log('RECV: ' + data); };
 //	    this.connection.rawOutput = function (data) { console.log('SEND: ' + data); };
-		/* listen events */
+//		listen events
 		this.bind('connected', this.onConnect);
 		if (this.options.autoConnect){
 			this.connect();
@@ -374,6 +400,7 @@ _.extend(Jschat.Xmpp.prototype, Jschat.JsmvcCallback, Backbone.Events, {
         }
 		return true;
 	},
+//	Public method, use it directly if you set `{autoChat: false}`
 	sendWelcome: function(){
     	if (!this._welcomeSent) {
     		var userinfo = this.getUserinfo();
@@ -388,6 +415,7 @@ _.extend(Jschat.Xmpp.prototype, Jschat.JsmvcCallback, Backbone.Events, {
     		});
     	}
 	},
+//	`sendMessage` used for send all messages 
 	sendMessage: function(message){
 		if (!this._welcomeSent){
 			this.sendWelcome();
@@ -408,9 +436,11 @@ _.extend(Jschat.Xmpp.prototype, Jschat.JsmvcCallback, Backbone.Events, {
 			this.chatlog.add(msg);
 		} 
 	},
+//	Prepare and render userinfo
 	getUserinfo: function(){
 		return Jschat.welcome_template(this.view.getUserinfo());
 	},
+//	Handler for incoming messages
 	onMessage: function(message){
 		var msg = new Jschat.Message({
 			text: $(message).find('body').text(),
@@ -422,6 +452,7 @@ _.extend(Jschat.Xmpp.prototype, Jschat.JsmvcCallback, Backbone.Events, {
 		this.chatlog.add(msg);
 		return true;
 	},
+//	Only trigger view event
 	onMessageAdd: function(message){
 		this.view.trigger('add:message', message);
 	}

@@ -22,10 +22,9 @@
 	<script type="text/javascript">
 	$(function(){
 		window.chat = new Jschat.Xmpp({
-	        bosh_service: 'http://localhost:5280/bosh',
 	        autoConnect: false,
 	        view_el_id: 'chat',
-	        autoChat: false
+	        autoChat: true
 	    });
 		$('#chat-button').click(function(){
 	        chat.view.render();
