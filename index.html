@@ -42,49 +42,84 @@
         <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
     </div>
 
-    <h1><a href="http://github.com/summerisgone/jschat">jschat</a>
-      <span class="small">by <a href="http://github.com/summerisgone">summerisgone</a></span></h1>
-
-    <div class="description">
-      Web xmpp chat application
-    </div>
-
-    <p>Jschat is web application for online support via Jabber</p><h2>Dependencies</h2>
-<p>jQuery
-Underscore.js
-Backbone.js
-Strophe.js
-Fleshed flXHR
-Handlebars.js</p>
-<h2>Install</h2>
-<p>1. Enter repository directory and open ``index.html`` in browser.
-2. Click on **Start chat**, enter name, email and message.
-3. Chat</p>
-<h2>License</h2>
-<p>GPLv3</p>
-<h2>Authors</h2>
-<p>Ivan Gromov (summer.is.gone@gmail.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Ivan Gromov (summer.is.gone@gmail.com)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/summerisgone/jschat/zipball/master">zip</a> or
-      <a href="http://github.com/summerisgone/jschat/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/summerisgone/jschat</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/summerisgone/jschat">summerisgone/jschat</a>
-    </div>
-
+<h1 class="title">Jschat</h1>
+<strong>web application for online support via Jabber</strong> 
+ 
+<div class="section" id="quick-start"> 
+<h1>Quick start</h1> 
+<ol class="arabic simple"> 
+<li>Enter repository directory and open <tt class="docutils literal">index.html</tt> in browser.</li> 
+<li>Click on <strong>Start chat</strong>, enter name, email and message.</li> 
+<li>Chat</li> 
+</ol> 
+</div> 
+<div class="section" id="dependencies"> 
+<h1>Dependencies</h1> 
+<p>Originally application was written with  <a class="reference external" href="http://javascriptmvc.com/">JavascriptMVC</a> 
+framework. But lated I decided to rewrite it on lighter
+<a class="reference external" href="http://documentcloud.github.com/backbone/">Backbone.js</a></p> 
+<p>So the requirements are:</p> 
+<ul class="simple"> 
+<li>jQuery as workhorse</li> 
+<li><a class="reference external" href="http://documentcloud.github.com/underscore/">Underscore.js</a>  as requirement for backbone and a nice <em>&quot;tie to go along with jQuery's tux&quot;</em>.</li> 
+<li><a class="reference external" href="http://documentcloud.github.com/backbone/">Backbone.js</a> as MVC framework</li> 
+<li><a class="reference external" href="http://strophe.im/strophejs/">Strophe.js</a>  as XMPP layer library (*)</li> 
+<li><a class="reference external" href="http://flxhr.flensed.com/">Fleshed</a>  for browsers, that doen't support CORS to initiate cross-domain connection via Flash</li> 
+<li><a class="reference external" href="http://handlebars.strobeapp.com/">Handlebars.js</a> as javascript tempalte engine (**)</li> 
+</ul> 
+<p>* - You will need also BOSH connection manager, like a <a class="reference external" href="https://github.com/metajack/punjab">punjab</a> as bridge to XMPP server
+.</p> 
+<p>** - Maybe it is better to use <a class="reference external" href="http://mustache.github.com/">Mustache</a>?</p> 
+<p>Some libraries may be dowloaded from CDN and github:</p> 
+<pre class="literal-block"> 
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://documentcloud.github.com/underscore/underscore-min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://documentcloud.github.com/backbone/backbone-min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://flxhr.flensed.com/code/build/flXHR.js&quot;&gt;&lt;/script&gt;
+</pre> 
+</div> 
+<div class="section" id="documentation"> 
+<h1>Documentation</h1> 
+<p>Documentation generated from source file with <a class="reference external" href="http://fitzgen.github.com/pycco/">Pycco</a>,  see it in repository <tt class="docutils literal">docs</tt> folder.</p>
+<p><a href="docs.html">Browse documentation online</a></p> 
   </div>
 
-  
+<h2>License</h2>
+<p>GPLv3</p>
+<h2>Authors</h2><p>Ivan Gromov (summer.is.gone@gmail.com)<br/>
+<br/>      </p>
+<h2>Contact</h2><p>Ivan Gromov (summer.is.gone@gmail.com)
+<br/>      </p>
+
+
+<h2>Download</h2>
+<p>
+  You can download this project in either
+  <a href="http://github.com/summerisgone/jschat/zipball/master">zip</a> or
+  <a href="http://github.com/summerisgone/jschat/tarball/master">tar</a> formats.
+</p>
+<p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+  by running:
+  <pre>$ git clone git://github.com/summerisgone/jschat</pre>
+</p>
+
+<div class="footer">
+  get the source code on GitHub : <a href="http://github.com/summerisgone/jschat">summerisgone/jschat</a>
+</div>
+
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-7039515-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>  
 </body>
 </html>
