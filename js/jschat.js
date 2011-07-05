@@ -359,7 +359,7 @@ _.extend(Jschat.Xmpp.prototype, Jschat.JsmvcCallback, Backbone.Events, {
 	onConnectChange: function(status_code, error){
 		for (st in Strophe.Status) {
 			if (status_code === Strophe.Status[st]) {
-				console.log('status: ' + st);
+//				console.log('status: ' + st);
 			}
 		}
 		if (status_code === Strophe.Status.CONNECTED) {
